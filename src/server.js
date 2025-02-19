@@ -9,7 +9,6 @@ import express from "express";
 import userRouter from './routers/userRouter.js'
 import productRouter from './routers/productRouter.js'
 
-
 //croa o objeto app que tem todas funções do express
 const app = express()
 
