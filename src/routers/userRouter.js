@@ -14,7 +14,7 @@ router.get('/', getUserController)
 
 router.post('/', createUserController)
 
-router.put('/', editUserController)
+router.put('/:id', editUserController)
 
 router.delete('/:id', deleteUserController)
 

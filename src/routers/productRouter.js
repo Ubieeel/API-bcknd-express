@@ -1,37 +1,22 @@
 import express from 'express'
+import createProductController from '../controllers/product/createProductController.js'
+import listProductController from '../controllers/product/listProductController.js'
+import editEstoqueController from '../controllers/product/editEstoqueController.js'
+import deleteProductController from '../controllers/product/deleteProductController.js'
+import updateProductController from '../controllers/product/updateProductController.js'
 
 const router = express.Router()
 
-router.get('/', (req,res) => {
-    return res.json({
-        message: "Resposta do Router /product/"
-    })
-})
+router.get('/', listProductController)
 
-router.post('/', (req,res) => {
-    return res.json({
-        message: "Resposta do em POST Router /product/"
-    })
-})
+router.post('/', createProductController)
 
-router.put('/', (req,res) => {
-    return res.json({
-        message: "Resposta do em put Router /product/"
-    })
-})
+router.put('/:id', editEstoqueController)
 
-router.delete('/', (req,res) => {
-    return res.json({
-        message: "Resposta do em delete Router /product/"
-    })
-})
+router.delete('/:id', deleteProductController)
 
 
-router.patch('/', (req,res) => {
-    return res.json({
-        message: "Resposta do em patch Router /product/"
-    })
-})
+router.patch('/update/:id', updateProductController)
 
 
 
