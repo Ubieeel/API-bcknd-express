@@ -1,49 +1,34 @@
-//Impotacao do express
-
-
-
-//const express = require('express')
-
-import express from "express";
-
+// const express = require('express') <- Exemplo de importação com require, mudamos para "import" no package.json type: "module"
+// importacao do pacote express
+import express from 'express'
+import authRouter from './routers/authRouter.js'
 import userRouter from './routers/userRouter.js'
 import productRouter from './routers/productRouter.js'
+import { logger } from './middlewares/logger.js'
 import cors from 'cors'
+import { errorsHandler } from './middlewares/errorsHandler.js'
+import welcomeController from './controllers/welcomeController.js'
+import notFoundController from './controllers/notFoundController.js'
+//import { loggerBody } from './middlewares/loggerBody.js'
 
-
-//croa o objeto app que tem todas funções do express
+// cria o objeto app que tem todas as funções do express
 const app = express()
 
-// Middleware para express entender json
-app.use(cors()) 
-app.use(express.json()) // Grava objeto no req.body
+app.use(logger) // Meu middleware de log 
+app.use(cors()) // middleware para liberar o cors do frontend web
+app.use(express.json()) // middleware que lê o json e grava o objeto no req.body
+//app.use(loggerBody)
 
-
-// Criando rota GET no endereço raiz (localhost:3000)
-app.get('/', (req, res) => {
-    return res.json({message: "Bem vindo a API!"
-       
-    })
-})
-
-app.post('/', (req, res) => {
-    return res.json({message: "Chamado a rota POST!"
-       
-    })
-})
-
-app.put('/', (req, res) => {
-    return res.json({message: "Chamado a rota POST!"
-       
-    })
-})
-
-
+// criando a rota get no endereço / (raiz: http://localhost:3000/) 
+app.get('/', welcomeController)
+app.use('/auth', authRouter) // todas as rotas que começam com /auth vão para o authRouter
 app.use('/user', userRouter)
 app.use('/product', productRouter)
+app.use('*', notFoundController)
 
+app.use(errorsHandler)
 
-// Sobe o servidor e fica ouvindo as rotas criadas anteriormente
+// sobe o servidor e fica ouvindo as rotas criadas anteriormente
 app.listen(3000, () => {
-    console.log('Servidor Rodando no http://localhost:3000.')
+    console.log('Servirdor Rodando no http://localhost:3000')
 })
